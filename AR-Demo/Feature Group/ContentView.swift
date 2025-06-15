@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var modelName: [String] = [
-        "slide",
+        "toy_drummer",
         "toy_biplane_realistic",
-        "LunarRover_English"
+        "hummingbird_anim"
     ]
     
     var body: some View {
@@ -22,7 +22,7 @@ struct ContentView: View {
                     HStack {
                         Button {
                             ARManager.shared.actionStream.send(.removeAllAnchors)
-                        } label: {
+                        } label: { 
                             Image(systemName: "trash")
                                 .resizable()
                                 .scaledToFit()

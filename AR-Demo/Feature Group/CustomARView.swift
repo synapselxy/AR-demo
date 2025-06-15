@@ -21,14 +21,23 @@ class CustomARView: ARView {
     
     convenience init() {
         self.init(frame: UIScreen.main.bounds)
-        
+        configurationSetup()
         subscribe2ActionStream()
     }
     
     func configurationSetup() {
-        let configuration = ARWorldTrackingConfiguration()
-        session.run(configuration)
+        let trackingConfiguration = ARImageTrackingConfiguration()
+        
+        if let trackedImage = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: Bundle.main) {
+            trackingConfiguration.trackingImages = trackedImage
+            trackingConfiguration.maximumNumberOfTrackedImages = 1
+            
+            print("Image tracked!")
+        }
+        
+        session.run(trackingConfiguration)
     }
+    
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -52,15 +61,29 @@ class CustomARView: ARView {
         let material = SimpleMaterial(color: .green, isMetallic: false)
         let greenBlock = ModelEntity(mesh: block, materials: [material])
         
-        let planeAnchor = AnchorEntity(plane: .horizontal)
+        var realAnchor = AnchorEntity()
+        
+//        let node = SCNNode()
+        
+//        if let imageAnchor = anchor as? ARImageAnchor {
+//            
+//            let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height)
+//            
+//            plane.firstMaterial?.diffuse.contents = UIColor(width: 1.0, alpha: 0.2)
+//        }
+        
+        let imageAnchor = AnchorEntity(.image(group: "AR Resources", name: "mintsmarker"))
+        realAnchor = imageAnchor
+
+        let _ = AnchorEntity(plane: .horizontal)
 
         
-        if let slideEntity = try? Entity.load(named: name){
-            planeAnchor.addChild(slideEntity)
+        if let modelEntity = try? Entity.load(named: name){
+            realAnchor.addChild(modelEntity)
         } else {
-            planeAnchor.addChild(greenBlock)
+            realAnchor.addChild(greenBlock)
         }
     
-        scene.addAnchor(planeAnchor)
+        scene.addAnchor(realAnchor)
     }
 }
