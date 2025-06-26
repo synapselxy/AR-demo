@@ -3,4 +3,4 @@ This is my AR Demo based on Apple's ARkit and Realitykit, Combine is used to imp
 Now I adjusted the main anchor to an Image, you can easily alter the code to plane anchor.
 
 
-[Effect GIF](AR-Demo/images/Untitled.gif)
+[you can see my AR demo's Effect GIF here](AR-Demo/images/Untitled.gif)
