@@ -13,6 +13,7 @@ import Combine
 class CustomARView: ARView {
     required init(frame frameRect: CGRect) {
         super.init(frame: frameRect)
+        
     }
     
     dynamic required init?(coder decoder: NSCoder) {
@@ -40,7 +41,7 @@ class CustomARView: ARView {
     
     
     private var cancellables: Set<AnyCancellable> = []
-    
+    private static var countEntity: Int = 0
 //    Combine 机制 订阅按钮的消息
     func subscribe2ActionStream() {
         ARManager.shared
@@ -51,6 +52,7 @@ class CustomARView: ARView {
                     self?.placeModel(ofname: name)
                 case .removeAllAnchors:
                     self?.scene.anchors.removeAll()
+                    Self.countEntity = 0
                 }
             }
             .store(in: &cancellables)
@@ -61,7 +63,9 @@ class CustomARView: ARView {
         let material = SimpleMaterial(color: .green, isMetallic: false)
         let greenBlock = ModelEntity(mesh: block, materials: [material])
         
-        var realAnchor = AnchorEntity()
+        var realAnchor = AnchorEntity(plane: .horizontal)
+        
+        
         
 //        let node = SCNNode()
         
@@ -75,11 +79,12 @@ class CustomARView: ARView {
         let imageAnchor = AnchorEntity(.image(group: "AR Resources", name: "mintsmarker"))
         realAnchor = imageAnchor
 
-        let _ = AnchorEntity(plane: .horizontal)
+//        let _ = AnchorEntity(plane: .horizontal)
 
         
         if let modelEntity = try? Entity.load(named: name){
             realAnchor.addChild(modelEntity)
+            Self.countEntity += 1
         } else {
             realAnchor.addChild(greenBlock)
         }

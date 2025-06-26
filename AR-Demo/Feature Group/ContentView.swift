@@ -9,17 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var modelName: [String] = [
-        "toy_drummer",
-        "toy_biplane_realistic",
-        "hummingbird_anim"
+        "drummer",
+        "biplane_realistic",
+        "hummingbird_anim",
+        "LunarRover_English.reality"
     ]
     
     var body: some View {
+        let columns = [
+            GridItem(.adaptive(minimum: 80), spacing: 12)
+        ]
         CustomARViewRepresentable()
             .ignoresSafeArea()
             .overlay(alignment: .bottom) {
                 ScrollView(.horizontal) {
-                    HStack {
+                    LazyVGrid(columns: columns, spacing: 12) {
                         Button {
                             ARManager.shared.actionStream.send(.removeAllAnchors)
                         } label: { 
