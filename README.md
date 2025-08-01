@@ -1,4 +1,5 @@
 基于AR kit和Reality kit实现的图片铆钉显示虚拟模型Demo项目， Combine实现异步通信机制。项目中也使用了单例模式。
+[效果GIF见此](AR-Demo/images/Untitled.gif)
 
 This is my AR Demo based on Apple's ARkit and Realitykit, Combine is used to implement a-synchronization with button. And I use the singleton pattern. You can try place the models on the plane anchor.
 
